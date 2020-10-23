@@ -1,5 +1,5 @@
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat Alternates', sans-serif;
 }
 
 .nav-item {
@@ -9,10 +9,6 @@ body {
 
 li {
   list-style-type: none;
-}
-
-.jumbotron {
-  background:transparent !important
 }
 
 .full-width {
@@ -31,4 +27,10 @@ a:hover {
 
 .intro {
   font-size:20px;
+}
+
+.jumbotron {
+  background-image: url('/img/dramatic-apple-pick.jpg') !important;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
