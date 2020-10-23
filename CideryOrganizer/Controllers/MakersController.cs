@@ -37,8 +37,8 @@ namespace CideryOrganizer.Controllers
     public ActionResult Details(int id)
     {
       var thisMaker = _db.Makers
-        .Include(maker => maker.Makers)
-        .ThenInclude(join => join.Maker)
+        .Include(maker => maker.Apples)
+        .ThenInclude(join => join.Apple)
         .Include(maker => maker.Ciders)
         .ThenInclude(join => join.Cider)
         .Include(maker => maker.Types)
@@ -49,9 +49,9 @@ namespace CideryOrganizer.Controllers
     public ActionResult Edit(int id)
     {
       var thisMaker = _db.Makers.FirstOrDefault(makers => makers.MakerId == id);
-      ViewBag.MakerId = new SelectList(_db.Makers, "MakerId", "MakerName");
-      ViewBag.MakerId = new SelectList(_db.Makers, "TypeId", "TypeName");
-      ViewBag.MakerId = new SelectList(_db.Makers, "CiderId", "CiderName");
+      ViewBag.AppleId = new SelectList(_db.Apples, "AppleId", "AppleName");
+      ViewBag.TypeId = new SelectList(_db.Types, "TypeId", "TypeName");
+      ViewBag.CiderId = new SelectList(_db.Ciders, "CiderId", "CiderName");
       return View(thisMaker);
     }
 
@@ -60,11 +60,11 @@ namespace CideryOrganizer.Controllers
     {
       if (MakerId != 0)
       {
-        _db.MakerMaker.Add(new MakerMaker(){ MakerId = MakerId, MakerId = maker.MakerId });
+        _db.AppleMaker.Add(new AppleMaker(){ AppleId = AppleId, MakerId = maker.MakerId });
       }
       if (CiderId != 0)
       {
-        _db.MakerCider.Add(new MakerCider(){ CiderId = CiderId, MakerId = maker.MakerId });
+        _db.CiderMaker.Add(new CiderMaker(){ CiderId = CiderId, MakerId = maker.MakerId });
       }
       if (TypeId != 0)
       {
@@ -89,25 +89,25 @@ namespace CideryOrganizer.Controllers
       return RedirectToAction("Index");
     }
     [HttpPost]
-    public ActionResult DeleteMaker(int makerId, int joinId)
+    public ActionResult DeleteApple(int makerId, int joinId)
     {
-      var joinEntry = _db.MakerMaker.FirstOrDefault(entry => entry.MakerMakerId == joinId);
-      _db.MakerMaker.Remove(joinEntry);
+      var joinEntry = _db.AppleMaker.FirstOrDefault(entry => entry.AppleMakerId == joinId);
+      _db.AppleMaker.Remove(joinEntry);
       _db.SaveChanges();
       return RedirectToAction("Details", new { id = makerId});
     }
-    public ActionResult AddMaker(int id)
+    public ActionResult AddApple(int id)
     {
       var thisMaker = _db.Makers.FirstOrDefault(makers => makers.MakerId == id);
-      ViewBag.MakerId = new SelectList(_db.Makers, "MakerId", "MakerTitle");
+      ViewBag.MakerId = new SelectList(_db.Apples, "AppleId", "AppleTitle");
       return View(thisMaker);
     }
     [HttpPost]
-    public ActionResult AddMaker(Maker maker, int MakerId)
+    public ActionResult AddApple(Maker maker, int AppleId)
     {
       if (MakerId != 0)
       {
-      _db.MakerMaker.Add(new MakerMaker() { MakerId = MakerId, MakerId = maker.MakerId });
+      _db.AppleMaker.Add(new AppleMaker() { AppleId = AppleId, MakerId = maker.MakerId });
       }
       _db.SaveChanges();
       return RedirectToAction("Details", new { id = maker.MakerId});
@@ -115,8 +115,8 @@ namespace CideryOrganizer.Controllers
     [HttpPost]
     public ActionResult DeleteCider(int makerId, int joinId)
     {
-      var joinEntry = _db.MakerCider.FirstOrDefault(entry => entry.MakerCiderId == joinId);
-      _db.MakerCider.Remove(joinEntry);
+      var joinEntry = _db.CiderMaker.FirstOrDefault(entry => entry.CiderMakerId == joinId);
+      _db.CiderMaker.Remove(joinEntry);
       _db.SaveChanges();
       return RedirectToAction("Details", new { id = makerId});
     }
@@ -131,7 +131,7 @@ namespace CideryOrganizer.Controllers
     {
       if (CiderId != 0)
       {
-      _db.MakerCider.Add(new MakerCider() { CiderId = CiderId, MakerId = maker.MakerId });
+      _db.CiderMaker.Add(new CiderMaker() { CiderId = CiderId, MakerId = maker.MakerId });
       }
       _db.SaveChanges();
       return RedirectToAction("Details", new { id = maker.MakerId});

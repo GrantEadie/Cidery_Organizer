@@ -50,8 +50,8 @@ namespace CideryOrganizer.Controllers
     {
       var thisApple = _db.Apples.FirstOrDefault(apples => apples.AppleId == id);
       ViewBag.MakerId = new SelectList(_db.Makers, "MakerId", "MakerName");
-      ViewBag.MakerId = new SelectList(_db.Makers, "TypeId", "TypeName");
-      ViewBag.MakerId = new SelectList(_db.Makers, "CiderId", "CiderName");
+      ViewBag.TypeId = new SelectList(_db.Types, "TypeId", "TypeName");
+      ViewBag.CiderId = new SelectList(_db.Ciders, "CiderId", "CiderName");
       return View(thisApple);
     }
 
