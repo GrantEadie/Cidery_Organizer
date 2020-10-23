@@ -31,12 +31,8 @@ a:hover {
 
 .bgimage {
   height:200px;
-  background-image: url('/img/dramatic-apple-pick.jpg');
+  background-image:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/img/dramatic-apple-pick.jpg');
   background-repeat: no-repeat;
   background-position: center;
   background-size:cover;
-}
-.bgimage h5 {
-  color:white;
-  text-shadow:2px 2px #333;
 }
