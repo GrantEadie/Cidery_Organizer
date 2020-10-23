@@ -56,9 +56,9 @@ namespace CideryOrganizer.Controllers
     }
 
     [HttpPost]
-    public ActionResult Edit(Maker maker, int MakerId, int TypeId, int CiderId)
+    public ActionResult Edit(Maker maker, int AppleId, int TypeId, int CiderId)
     {
-      if (MakerId != 0)
+      if (AppleId != 0)
       {
         _db.AppleMaker.Add(new AppleMaker(){ AppleId = AppleId, MakerId = maker.MakerId });
       }
