@@ -30,7 +30,7 @@ a:hover {
 }
 
 .bgimage {
-  height:300px;
+  height:250px;
   background-image:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/img/dramatic-apple-pick.jpg');
   background-repeat: no-repeat;
   background-position: center;
