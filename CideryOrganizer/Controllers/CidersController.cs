@@ -11,6 +11,7 @@ using System.Security.Claims;
 
 namespace CideryOrganizer.Controllers
 {
+  [Authorize]
   public class CidersController : Controller
   {
     private readonly CideryOrganizerContext _db;
