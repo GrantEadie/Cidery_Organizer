@@ -8,7 +8,7 @@ namespace CideryOrganizer.Models
     {
       this.Ciders = new HashSet<AppleCider>();
       this.Makers = new HashSet<AppleMaker>();
-      this.Types = new HashSet<AppleType>();
+      this.Styles = new HashSet<AppleStyle>();
     }
 
     public int AppleId { get; set; }
@@ -16,7 +16,7 @@ namespace CideryOrganizer.Models
     public virtual ApplicationUser User { get; set; }
     public virtual ICollection<AppleCider> Ciders { get; set; }
     public virtual ICollection<AppleMaker> Makers { get; set; }
-    public virtual ICollection<AppleType> Types { get; set; }
-    
+    public virtual ICollection<AppleStyle> Styles { get; set; }
+
   }
 }

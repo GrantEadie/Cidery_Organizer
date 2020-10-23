@@ -1,0 +1,30 @@
+@{
+  Layout = "_Layout";
+}
+@model CideryOrganizer.Models.Style
+
+<h2>Edit</h2><hr>
+  <div class="row">
+    <div class="col-sm">
+      <h4>@Html.DisplayFor(model => model.StyleName)</h4><hr>
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.StyleId)
+
+  <p>Name: </p>
+  @Html.TextBoxFor(model => model.StyleName,null, new {@required="required", @style="width:100%"})
+  <br><br>
+
+  <input style="submit" value="Save" class="btn btn-outline-dark btn-block btn-sm" />
+}
+<br>
+<p>@Html.ActionLink("Cancel", "Details", null, new {id = Model.StyleId}, new {@class="btn btn-outline-warning btn-block btn-sm"})</p>
+    </div>
+    <div class="col-sm">
+
+    </div>
+    <div class="col-sm">
+
+    </div>
+  </div>

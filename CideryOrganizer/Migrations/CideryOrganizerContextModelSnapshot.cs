@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CideryOrganizer.Migrations
 {
-    [DbContext(typeof(CideryOrganizerContext))]
+    [DbContext(styleof(CideryOrganizerContext))]
     partial class CideryOrganizerContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -69,22 +69,22 @@ namespace CideryOrganizer.Migrations
                     b.ToTable("AppleMaker");
                 });
 
-            modelBuilder.Entity("CideryOrganizer.Models.AppleType", b =>
+            modelBuilder.Entity("CideryOrganizer.Models.AppleStyle", b =>
                 {
-                    b.Property<int>("AppleTypeId")
+                    b.Property<int>("AppleStyleId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AppleId");
 
-                    b.Property<int>("TypeId");
+                    b.Property<int>("StyleId");
 
-                    b.HasKey("AppleTypeId");
+                    b.HasKey("AppleStyleId");
 
                     b.HasIndex("AppleId");
 
-                    b.HasIndex("TypeId");
+                    b.HasIndex("StyleId");
 
-                    b.ToTable("AppleType");
+                    b.ToTable("AppleStyle");
                 });
 
             modelBuilder.Entity("CideryOrganizer.Models.ApplicationUser", b =>
@@ -171,22 +171,22 @@ namespace CideryOrganizer.Migrations
                     b.ToTable("CiderMaker");
                 });
 
-            modelBuilder.Entity("CideryOrganizer.Models.CiderType", b =>
+            modelBuilder.Entity("CideryOrganizer.Models.CiderStyle", b =>
                 {
-                    b.Property<int>("CiderTypeId")
+                    b.Property<int>("CiderStyleId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("CiderId");
 
-                    b.Property<int>("TypeId");
+                    b.Property<int>("StyleId");
 
-                    b.HasKey("CiderTypeId");
+                    b.HasKey("CiderStyleId");
 
                     b.HasIndex("CiderId");
 
-                    b.HasIndex("TypeId");
+                    b.HasIndex("StyleId");
 
-                    b.ToTable("CiderType");
+                    b.ToTable("CiderStyle");
                 });
 
             modelBuilder.Entity("CideryOrganizer.Models.Maker", b =>
@@ -205,38 +205,38 @@ namespace CideryOrganizer.Migrations
                     b.ToTable("Makers");
                 });
 
-            modelBuilder.Entity("CideryOrganizer.Models.MakerType", b =>
+            modelBuilder.Entity("CideryOrganizer.Models.MakerStyle", b =>
                 {
-                    b.Property<int>("MakerTypeId")
+                    b.Property<int>("MakerStyleId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("MakerId");
 
-                    b.Property<int>("TypeId");
+                    b.Property<int>("StyleId");
 
-                    b.HasKey("MakerTypeId");
+                    b.HasKey("MakerStyleId");
 
                     b.HasIndex("MakerId");
 
-                    b.HasIndex("TypeId");
+                    b.HasIndex("StyleId");
 
-                    b.ToTable("MakerType");
+                    b.ToTable("MakerStyle");
                 });
 
-            modelBuilder.Entity("CideryOrganizer.Models.Type", b =>
+            modelBuilder.Entity("CideryOrganizer.Models.Style", b =>
                 {
-                    b.Property<int>("TypeId")
+                    b.Property<int>("StyleId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("TypeName");
+                    b.Property<string>("StyleName");
 
                     b.Property<string>("UserId");
 
-                    b.HasKey("TypeId");
+                    b.HasKey("StyleId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Types");
+                    b.ToTable("Styles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -267,7 +267,7 @@ namespace CideryOrganizer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ClaimType");
+                    b.Property<string>("ClaimStyle");
 
                     b.Property<string>("ClaimValue");
 
@@ -286,7 +286,7 @@ namespace CideryOrganizer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ClaimType");
+                    b.Property<string>("ClaimStyle");
 
                     b.Property<string>("ClaimValue");
 
@@ -379,16 +379,16 @@ namespace CideryOrganizer.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("CideryOrganizer.Models.AppleType", b =>
+            modelBuilder.Entity("CideryOrganizer.Models.AppleStyle", b =>
                 {
                     b.HasOne("CideryOrganizer.Models.Apple", "Apple")
-                        .WithMany("Types")
+                        .WithMany("Styles")
                         .HasForeignKey("AppleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("CideryOrganizer.Models.Type", "Type")
+                    b.HasOne("CideryOrganizer.Models.Style", "Style")
                         .WithMany("Apples")
-                        .HasForeignKey("TypeId")
+                        .HasForeignKey("StyleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -412,16 +412,16 @@ namespace CideryOrganizer.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("CideryOrganizer.Models.CiderType", b =>
+            modelBuilder.Entity("CideryOrganizer.Models.CiderStyle", b =>
                 {
                     b.HasOne("CideryOrganizer.Models.Cider", "Cider")
-                        .WithMany("Types")
+                        .WithMany("Styles")
                         .HasForeignKey("CiderId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("CideryOrganizer.Models.Type", "Type")
+                    b.HasOne("CideryOrganizer.Models.Style", "Style")
                         .WithMany("Ciders")
-                        .HasForeignKey("TypeId")
+                        .HasForeignKey("StyleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -432,20 +432,20 @@ namespace CideryOrganizer.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("CideryOrganizer.Models.MakerType", b =>
+            modelBuilder.Entity("CideryOrganizer.Models.MakerStyle", b =>
                 {
                     b.HasOne("CideryOrganizer.Models.Maker", "Maker")
-                        .WithMany("Types")
+                        .WithMany("Styles")
                         .HasForeignKey("MakerId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("CideryOrganizer.Models.Type", "Type")
+                    b.HasOne("CideryOrganizer.Models.Style", "Style")
                         .WithMany("Makers")
-                        .HasForeignKey("TypeId")
+                        .HasForeignKey("StyleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("CideryOrganizer.Models.Type", b =>
+            modelBuilder.Entity("CideryOrganizer.Models.Style", b =>
                 {
                     b.HasOne("CideryOrganizer.Models.ApplicationUser", "User")
                         .WithMany()

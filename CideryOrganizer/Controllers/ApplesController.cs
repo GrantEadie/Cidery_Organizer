@@ -41,8 +41,8 @@ namespace CideryOrganizer.Controllers
         .ThenInclude(join => join.Maker)
         .Include(apple => apple.Ciders)
         .ThenInclude(join => join.Cider)
-        .Include(apple => apple.Types)
-        .ThenInclude(join => join.Type)
+        .Include(apple => apple.Styles)
+        .ThenInclude(join => join.Style)
         .FirstOrDefault(apple => apple.AppleId == id);
       return View(thisApple);
     }
@@ -50,13 +50,13 @@ namespace CideryOrganizer.Controllers
     {
       var thisApple = _db.Apples.FirstOrDefault(apples => apples.AppleId == id);
       ViewBag.MakerId = new SelectList(_db.Makers, "MakerId", "MakerName");
-      ViewBag.TypeId = new SelectList(_db.Types, "TypeId", "TypeName");
+      ViewBag.StyleId = new SelectList(_db.Styles, "StyleId", "StyleName");
       ViewBag.CiderId = new SelectList(_db.Ciders, "CiderId", "CiderName");
       return View(thisApple);
     }
 
     [HttpPost]
-    public ActionResult Edit(Apple apple, int MakerId, int TypeId, int CiderId)
+    public ActionResult Edit(Apple apple, int MakerId, int StyleId, int CiderId)
     {
       if (MakerId != 0)
       {
@@ -66,9 +66,9 @@ namespace CideryOrganizer.Controllers
       {
         _db.AppleCider.Add(new AppleCider(){ CiderId = CiderId, AppleId = apple.AppleId });
       }
-      if (TypeId != 0)
+      if (StyleId != 0)
       {
-        _db.AppleType.Add(new AppleType(){ TypeId = TypeId, AppleId = apple.AppleId });
+        _db.AppleStyle.Add(new AppleStyle(){ StyleId = StyleId, AppleId = apple.AppleId });
       }
       _db.Entry(apple).State = EntityState.Modified;
       _db.SaveChanges();
@@ -138,25 +138,25 @@ namespace CideryOrganizer.Controllers
     }
 
     [HttpPost]
-    public ActionResult DeleteType(int appleId, int joinId)
+    public ActionResult DeleteStyle(int appleId, int joinId)
     {
-      var joinEntry = _db.AppleType.FirstOrDefault(entry => entry.AppleTypeId == joinId);
-      _db.AppleType.Remove(joinEntry);
+      var joinEntry = _db.AppleStyle.FirstOrDefault(entry => entry.AppleStyleId == joinId);
+      _db.AppleStyle.Remove(joinEntry);
       _db.SaveChanges();
       return RedirectToAction("Details", new { id = appleId});
     }
-    public ActionResult AddType(int id)
+    public ActionResult AddStyle(int id)
     {
       var thisApple = _db.Apples.FirstOrDefault(apples => apples.AppleId == id);
-      ViewBag.TypeId = new SelectList(_db.Types, "TypeId", "TypeName");
+      ViewBag.StyleId = new SelectList(_db.Styles, "StyleId", "StyleName");
       return View(thisApple);
     }
     [HttpPost]
-    public ActionResult AddType(Apple apple, int TypeId)
+    public ActionResult AddStyle(Apple apple, int StyleId)
     {
-      if (TypeId != 0)
+      if (StyleId != 0)
       {
-      _db.AppleType.Add(new AppleType() { TypeId = TypeId, AppleId = apple.AppleId });
+      _db.AppleStyle.Add(new AppleStyle() { StyleId = StyleId, AppleId = apple.AppleId });
       }
       _db.SaveChanges();
       return RedirectToAction("Details", new { id = apple.AppleId});

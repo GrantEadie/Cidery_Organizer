@@ -41,8 +41,8 @@ namespace CideryOrganizer.Controllers
         .ThenInclude(join => join.Apple)
         .Include(maker => maker.Ciders)
         .ThenInclude(join => join.Cider)
-        .Include(maker => maker.Types)
-        .ThenInclude(join => join.Type)
+        .Include(maker => maker.Styles)
+        .ThenInclude(join => join.Style)
         .FirstOrDefault(maker => maker.MakerId == id);
       return View(thisMaker);
     }
@@ -50,13 +50,13 @@ namespace CideryOrganizer.Controllers
     {
       var thisMaker = _db.Makers.FirstOrDefault(makers => makers.MakerId == id);
       ViewBag.AppleId = new SelectList(_db.Apples, "AppleId", "AppleName");
-      ViewBag.TypeId = new SelectList(_db.Types, "TypeId", "TypeName");
+      ViewBag.StyleId = new SelectList(_db.Styles, "StyleId", "StyleName");
       ViewBag.CiderId = new SelectList(_db.Ciders, "CiderId", "CiderName");
       return View(thisMaker);
     }
 
     [HttpPost]
-    public ActionResult Edit(Maker maker, int AppleId, int TypeId, int CiderId)
+    public ActionResult Edit(Maker maker, int AppleId, int StyleId, int CiderId)
     {
       if (AppleId != 0)
       {
@@ -66,9 +66,9 @@ namespace CideryOrganizer.Controllers
       {
         _db.CiderMaker.Add(new CiderMaker(){ CiderId = CiderId, MakerId = maker.MakerId });
       }
-      if (TypeId != 0)
+      if (StyleId != 0)
       {
-        _db.MakerType.Add(new MakerType(){ TypeId = TypeId, MakerId = maker.MakerId });
+        _db.MakerStyle.Add(new MakerStyle(){ StyleId = StyleId, MakerId = maker.MakerId });
       }
       _db.Entry(maker).State = EntityState.Modified;
       _db.SaveChanges();
@@ -105,7 +105,7 @@ namespace CideryOrganizer.Controllers
     [HttpPost]
     public ActionResult AddApple(Maker maker, int AppleId)
     {
-      if (MakerId != 0)
+      if (AppleId != 0)
       {
       _db.AppleMaker.Add(new AppleMaker() { AppleId = AppleId, MakerId = maker.MakerId });
       }
@@ -138,25 +138,25 @@ namespace CideryOrganizer.Controllers
     }
 
     [HttpPost]
-    public ActionResult DeleteType(int makerId, int joinId)
+    public ActionResult DeleteStyle(int makerId, int joinId)
     {
-      var joinEntry = _db.MakerType.FirstOrDefault(entry => entry.MakerTypeId == joinId);
-      _db.MakerType.Remove(joinEntry);
+      var joinEntry = _db.MakerStyle.FirstOrDefault(entry => entry.MakerStyleId == joinId);
+      _db.MakerStyle.Remove(joinEntry);
       _db.SaveChanges();
       return RedirectToAction("Details", new { id = makerId});
     }
-    public ActionResult AddType(int id)
+    public ActionResult AddStyle(int id)
     {
       var thisMaker = _db.Makers.FirstOrDefault(makers => makers.MakerId == id);
-      ViewBag.TypeId = new SelectList(_db.Types, "TypeId", "TypeName");
+      ViewBag.StyleId = new SelectList(_db.Styles, "StyleId", "StyleName");
       return View(thisMaker);
     }
     [HttpPost]
-    public ActionResult AddType(Maker maker, int TypeId)
+    public ActionResult AddStyle(Maker maker, int StyleId)
     {
-      if (TypeId != 0)
+      if (StyleId != 0)
       {
-      _db.MakerType.Add(new MakerType() { TypeId = TypeId, MakerId = maker.MakerId });
+      _db.MakerStyle.Add(new MakerStyle() { StyleId = StyleId, MakerId = maker.MakerId });
       }
       _db.SaveChanges();
       return RedirectToAction("Details", new { id = maker.MakerId});

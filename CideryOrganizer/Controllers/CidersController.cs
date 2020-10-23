@@ -62,9 +62,9 @@ namespace CideryOrganizer.Controllers
       {
         _db.CiderMaker.Add(new CiderMaker(){ MakerId = MakerId, CiderId = cider.CiderId });
       }
-      if (CiderId != 0)
+      if (AppleId != 0)
       {
-        _db.AppleCider.Add(new AppleCider(){ CiderId = CiderId, CiderId = cider.CiderId });
+        _db.AppleCider.Add(new AppleCider(){ AppleId = AppleId, CiderId = cider.CiderId });
       }
       if (TypeId != 0)
       {
@@ -113,10 +113,10 @@ namespace CideryOrganizer.Controllers
       return RedirectToAction("Details", new { id = cider.CiderId});
     }
     [HttpPost]
-    public ActionResult DeleteApple(int appleId, int joinId)
+    public ActionResult DeleteApple(int ciderId, int joinId)
     {
-      var joinEntry = _db.CiderCider.FirstOrDefault(entry => entry.AppleCiderId == joinId);
-      _db.CiderCider.Remove(joinEntry);
+      var joinEntry = _db.AppleCider.FirstOrDefault(entry => entry.AppleCiderId == joinId);
+      _db.AppleCider.Remove(joinEntry);
       _db.SaveChanges();
       return RedirectToAction("Details", new { id = ciderId});
     }
@@ -129,7 +129,7 @@ namespace CideryOrganizer.Controllers
     [HttpPost]
     public ActionResult AddCider(Cider cider, int AppleId)
     {
-      if (CiderId != 0)
+      if (AppleId != 0)
       {
       _db.AppleCider.Add(new AppleCider() { AppleId = AppleId, CiderId = cider.CiderId });
       }
