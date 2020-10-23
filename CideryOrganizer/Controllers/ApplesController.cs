@@ -99,7 +99,7 @@ namespace CideryOrganizer.Controllers
     public ActionResult AddMaker(int id)
     {
       var thisApple = _db.Apples.FirstOrDefault(apples => apples.AppleId == id);
-      ViewBag.MakerId = new SelectList(_db.Makers, "MakerId", "MakerTitle");
+      ViewBag.MakerId = new SelectList(_db.Makers, "MakerId", "MakerName");
       return View(thisApple);
     }
     [HttpPost]

@@ -99,7 +99,7 @@ namespace CideryOrganizer.Controllers
     public ActionResult AddMaker(int id)
     {
       var thisCider = _db.Ciders.FirstOrDefault(ciders => ciders.CiderId == id);
-      ViewBag.MakerId = new SelectList(_db.Makers, "MakerId", "MakerTitle");
+      ViewBag.MakerId = new SelectList(_db.Makers, "MakerId", "MakerName");
       return View(thisCider);
     }
     [HttpPost]
@@ -123,7 +123,7 @@ namespace CideryOrganizer.Controllers
     public ActionResult AddApple(int id)
     {
       var thisCider = _db.Ciders.FirstOrDefault(ciders => ciders.CiderId == id);
-      ViewBag.CiderId = new SelectList(_db.Ciders, "AppleId", "AppleName");
+      ViewBag.AppleId = new SelectList(_db.Apples, "AppleId", "AppleName");
       return View(thisCider);
     }
     [HttpPost]

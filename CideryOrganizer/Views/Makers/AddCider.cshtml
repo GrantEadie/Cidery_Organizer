@@ -1,0 +1,37 @@
+@{
+  Layout = "_Layout";
+}
+<div class="bgimage">
+<h1 style="color:white; padding-top:100px; text-align:center"><span style="font-weight:900">Makers <svg width="0.75em" height="0.75em" id="Layer_1" data-name="Layer 1" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 202.75 230.65"><title>Maker svg</title><path d="M302.22,309.5c-3.88-13.92-11-25.19-20.67-35.49,2.15-.67,3.91-1.13,5.61-1.76,5.47-2,4.36-1.85,7.25,2.85,5,8.07,8.28,16.89,11.19,25.87,0.89,2.75,1.85,5.47,2.93,8.18A72.62,72.62,0,0,1,314,290c5.59-12.17,14.66-20.52,27.39-24.73,11.12-3.68,21.8-8.26,31.52-14.87,1.83-1.24,3.46-2.79,5.61-4.55-2.55,16.75-6.15,32.65-15.47,47l5.72,0.8c12.79,1.78,22.76,8.12,30.53,18.37a75,75,0,0,1,12.25,23.11,72.9,72.9,0,0,1,3,15.19c1,11.29-1.05,22.23-4.91,32.88-6,16.45-14.41,31.56-24.17,46-8.18,12.13-17.22,23.58-26.54,34.83-3.16,3.82-6.33,7.5-11,9.59-8.15,3.67-16.26,4.06-24.33-.22-5.84-3.1-12.15-3.88-18.59-3.39a49.23,49.23,0,0,0-10.32,2c-8.43,2.53-16.25,1.26-23.78-3-9.68-5.48-16.79-13.54-22.83-22.65-8.4-12.68-14.9-26.35-20.55-40.43a275.41,275.41,0,0,1-13.26-41.48c-2.44-10.72-3.29-21.55-.67-32.43,2.92-12.09,9.83-21.25,20.17-28a48.69,48.69,0,0,1,29.91-7.94,68.43,68.43,0,0,1,24.19,6.13c3.8,1.69,7.42,3.8,11.13,5.7C299.92,308.45,300.81,308.84,302.22,309.5Z" transform="translate(-212.05 -245.9)"/></svg></span></h1><hr style="background-color:white; float:right"><br>
+</div>
+<br>
+@model CideryOrganizer.Models.Maker
+<br><br>
+<div class="container">
+<h1>Add a cider that's made by <b>@Html.DisplayFor(model => model.MakerName)</b></h1>
+<hr>
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+
+      @using (Html.BeginForm())
+      {
+        @Html.HiddenFor(model => model.MakerId)
+
+        @Html.Label("Select Cider")
+        @Html.DropDownList("CiderId", null, new { @class="form-control"})<br>
+        <p>Don't see your cider? Add one <a href="/Ciders/Create">here</a>.</p><br>
+
+        <input type="submit" value="Save" class="button2" style="width:100%"/>
+      }
+      <br><a style="float:left" href="/Makers" class="btn btn-outline-light"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm9.5 8.5a.5.5 0 0 0 0-1H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5z"/>
+    </svg></a>
+    </div>
+    <div class="col-sm">
+    </div>
+    <div class="col-sm">
+    </div>
+  </div>
+  </div>
+  </div>
