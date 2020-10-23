@@ -1,25 +1,33 @@
 using Microsoft.AspNetCore.Mvc;
 using CideryOrganizer.Models;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace CideryOrganizer.Controllers
 {
   public class ApplesController : Controller
   {
     private readonly CideryOrganizerContext _db;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public ApplesController(CideryOrganizerContext db)
+    public ApplesController(UserManager<ApplicationUser> userManager, CideryOrganizerContext db)
     {
-      _db = db ;
+      _userManager = userManager;
+      _db = db;
     }
 
-    public ActionResult Index()
+    public async Task<ActionResult> Index()
     {
-      List<Apple> model = _db.Apples.ToList();
-      return View(model);
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var userApples = _db.Apples.Where(entry => entry.User.Id == currentUser.Id).ToList();
+      return View(userApples);
     }
 
     public ActionResult Create()
@@ -28,8 +36,11 @@ namespace CideryOrganizer.Controllers
     }
 
     [HttpPost]
-    public ActionResult Create(Apple apple)
+    public async Task<ActionResult> Create(Apple apple)
     {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      apple.User = currentUser;
       _db.Apples.Add(apple);
       _db.SaveChanges();
       return RedirectToAction("Index");

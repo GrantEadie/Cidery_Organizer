@@ -1,9 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using CideryOrganizer.Models;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace CideryOrganizer.Controllers
 {
@@ -11,15 +15,20 @@ namespace CideryOrganizer.Controllers
   {
     private readonly CideryOrganizerContext _db;
 
-    public StylesController(CideryOrganizerContext db)
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public StylesController(UserManager<ApplicationUser> userManager, CideryOrganizerContext db)
     {
-      _db = db ;
+      _userManager = userManager;
+      _db = db;
     }
 
-    public ActionResult Index()
+    public async Task<ActionResult> Index()
     {
-      List<Style> model = _db.Styles.ToList();
-      return View(model);
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var userStyles = _db.Styles.Where(entry => entry.User.Id == currentUser.Id).ToList();
+      return View(userStyles);
     }
 
     public ActionResult Create()
@@ -28,8 +37,11 @@ namespace CideryOrganizer.Controllers
     }
 
     [HttpPost]
-    public ActionResult Create(Style style)
+    public async Task<ActionResult> Create(Style style)
     {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      style.User = currentUser;
       _db.Styles.Add(style);
       _db.SaveChanges();
       return RedirectToAction("Index");

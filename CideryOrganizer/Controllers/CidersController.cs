@@ -1,25 +1,33 @@
 using Microsoft.AspNetCore.Mvc;
 using CideryOrganizer.Models;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace CideryOrganizer.Controllers
 {
   public class CidersController : Controller
   {
     private readonly CideryOrganizerContext _db;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public CidersController(CideryOrganizerContext db)
+    public CidersController(UserManager<ApplicationUser> userManager, CideryOrganizerContext db)
     {
-      _db = db ;
+      _userManager = userManager;
+      _db = db;
     }
 
-    public ActionResult Index()
+    public async Task<ActionResult> Index()
     {
-      List<Cider> model = _db.Ciders.ToList();
-      return View(model);
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var userCiders = _db.Ciders.Where(entry => entry.User.Id == currentUser.Id).ToList();
+      return View(userCiders);
     }
 
     public ActionResult Create()
@@ -28,12 +36,15 @@ namespace CideryOrganizer.Controllers
     }
 
     [HttpPost]
-    public ActionResult Create(Cider cider)
+    public async Task<ActionResult> Create(Cider cider)
     {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      cider.User = currentUser;
       _db.Ciders.Add(cider);
       _db.SaveChanges();
       return RedirectToAction("Index");
-    }  
+    }    
     public ActionResult Details(int id)
     {
       var thisCider = _db.Ciders

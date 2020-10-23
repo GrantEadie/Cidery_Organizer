@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
 using CideryOrganizer.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace CideryOrganizer
 {
@@ -23,15 +24,25 @@ namespace CideryOrganizer
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddMvc();
+
       services.AddEntityFrameworkMySql()
         .AddDbContext<CideryOrganizerContext>(options => options
         .UseMySql(Configuration["ConnectionStrings:DefaultConnection"]));
+
+      //new code
+      services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<CideryOrganizerContext>()
+                .AddDefaultTokenProviders();
     }
 
     public void Configure(IApplicationBuilder app)
     {
-      app.UseDeveloperExceptionPage();
       app.UseStaticFiles();
+
+      app.UseDeveloperExceptionPage();
+
+      //new code
+      app.UseAuthentication();
 
       app.UseMvc(routes =>
       {
@@ -44,7 +55,6 @@ namespace CideryOrganizer
       {
         await context.Response.WriteAsync("Something went wrong!");
       });
-
     }
   }
 }

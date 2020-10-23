@@ -1,9 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using CideryOrganizer.Models;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace CideryOrganizer.Controllers
 {
@@ -11,15 +15,20 @@ namespace CideryOrganizer.Controllers
   {
     private readonly CideryOrganizerContext _db;
 
-    public MakersController(CideryOrganizerContext db)
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public MakersController(UserManager<ApplicationUser> userManager, CideryOrganizerContext db)
     {
-      _db = db ;
+      _userManager = userManager;
+      _db = db;
     }
 
-    public ActionResult Index()
+    public async Task<ActionResult> Index()
     {
-      List<Maker> model = _db.Makers.ToList();
-      return View(model);
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var userMakers = _db.Makers.Where(entry => entry.User.Id == currentUser.Id).ToList();
+      return View(userMakers);
     }
 
     public ActionResult Create()
@@ -28,12 +37,15 @@ namespace CideryOrganizer.Controllers
     }
 
     [HttpPost]
-    public ActionResult Create(Maker maker)
+    public async Task<ActionResult> Create(Maker maker)
     {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      maker.User = currentUser;
       _db.Makers.Add(maker);
       _db.SaveChanges();
       return RedirectToAction("Index");
-    }  
+    }   
     public ActionResult Details(int id)
     {
       var thisMaker = _db.Makers
