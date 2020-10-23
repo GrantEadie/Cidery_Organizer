@@ -81,6 +81,7 @@ a:hover {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  cursor:pointer;
 }
 
 .button {
@@ -89,6 +90,7 @@ a:hover {
 
 .button:hover {
   background-color: white;
+  cursor:pointer;
   border: solid .25px rgb(171, 172, 82);
   color: rgb(171, 172, 82);
   fill: rgb(171, 172, 82);
