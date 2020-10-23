@@ -1,0 +1,19 @@
+@{
+  Layout = "_Layout";
+}
+@using CideryOrganizer.Models;
+
+<br><br>
+<h1>Types</h1>
+<hr><br>
+
+@if (@Model.Count == 0)
+{
+  <p>No types have been added yet!</p>
+}
+@foreach (Type type in Model)
+{
+  <li>@Html.ActionLink($"{type.TypeName}", "Details", new { id = type.TypeId}, new {@class="list-detail"}) </li>
+}
+<hr><br><br>
+<p>@Html.ActionLink("Add New Type", "Create", null, null, new {@class="btn btn-outline-dark btn-sm"})</p>
