@@ -21,7 +21,7 @@
         @using (Html.BeginForm("DeleteCider", "Styles"))
         {
           @Html.Hidden("styleId", @join.StyleId)
-          @Html.Hidden("joinId", @join.StyleCiderId)
+          @Html.Hidden("joinId", @join.CiderStyleId)
           <input style="margin-top:-30px" style="submit" value="Delete" class="btn btn-outline-warning btn-sm" />
         }
       }
@@ -36,11 +36,11 @@
       <h4>Apple:</h4>
       @foreach(var join in Model.Apples)
       {
-        <p>@Html.ActionLink($"{join.Apple.AppleTitle}", "Details", "Apples", new { id = join.Apple.AppleId }, new { @class="list-detail"})</p>
+        <p>@Html.ActionLink($"{join.Apple.AppleName}", "Details", "Apples", new { id = join.Apple.AppleId }, new { @class="list-detail"})</p>
         @using (Html.BeginForm("DeleteApple", "Styles"))
         {
           @Html.Hidden("styleId", @join.StyleId)
-          @Html.Hidden("joinId", @join.StyleAppleId)
+          @Html.Hidden("joinId", @join.AppleStyleId)
           <input style="margin-top:-30px" style="submit" value="Delete" class="btn btn-outline-warning btn-xs" />
         }
       }

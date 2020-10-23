@@ -41,8 +41,8 @@ namespace CideryOrganizer.Controllers
         .ThenInclude(join => join.Maker)
         .Include(cider => cider.Apples)
         .ThenInclude(join => join.Apple)
-        .Include(cider => cider.Types)
-        .ThenInclude(join => join.Type)
+        .Include(cider => cider.Styles)
+        .ThenInclude(join => join.Style)
         .FirstOrDefault(cider => cider.CiderId == id);
       return View(thisCider);
     }
@@ -50,13 +50,13 @@ namespace CideryOrganizer.Controllers
     {
       var thisCider = _db.Ciders.FirstOrDefault(ciders => ciders.CiderId == id);
       ViewBag.MakerId = new SelectList(_db.Makers, "MakerId", "MakerName");
-      ViewBag.TypeId = new SelectList(_db.Types, "TypeId", "TypeName");
+      ViewBag.StyleId = new SelectList(_db.Styles, "StyleId", "StyleName");
       ViewBag.AppleId = new SelectList(_db.Apples, "AppleId", "AppleName");
       return View(thisCider);
     }
 
     [HttpPost]
-    public ActionResult Edit(Cider cider, int MakerId, int TypeId, int AppleId)
+    public ActionResult Edit(Cider cider, int MakerId, int StyleId, int AppleId)
     {
       if (MakerId != 0)
       {
@@ -66,9 +66,9 @@ namespace CideryOrganizer.Controllers
       {
         _db.AppleCider.Add(new AppleCider(){ AppleId = AppleId, CiderId = cider.CiderId });
       }
-      if (TypeId != 0)
+      if (StyleId != 0)
       {
-        _db.CiderType.Add(new CiderType(){ TypeId = TypeId, CiderId = cider.CiderId });
+        _db.CiderStyle.Add(new CiderStyle(){ StyleId = StyleId, CiderId = cider.CiderId });
       }
       _db.Entry(cider).State = EntityState.Modified;
       _db.SaveChanges();
@@ -138,25 +138,25 @@ namespace CideryOrganizer.Controllers
     }
 
     [HttpPost]
-    public ActionResult DeleteType(int ciderId, int joinId)
+    public ActionResult DeleteStyle(int ciderId, int joinId)
     {
-      var joinEntry = _db.CiderType.FirstOrDefault(entry => entry.CiderTypeId == joinId);
-      _db.CiderType.Remove(joinEntry);
+      var joinEntry = _db.CiderStyle.FirstOrDefault(entry => entry.CiderStyleId == joinId);
+      _db.CiderStyle.Remove(joinEntry);
       _db.SaveChanges();
       return RedirectToAction("Details", new { id = ciderId});
     }
-    public ActionResult AddType(int id)
+    public ActionResult AddStyle(int id)
     {
       var thisCider = _db.Ciders.FirstOrDefault(ciders => ciders.CiderId == id);
-      ViewBag.TypeId = new SelectList(_db.Types, "TypeId", "TypeName");
+      ViewBag.StyleId = new SelectList(_db.Styles, "StyleId", "StyleName");
       return View(thisCider);
     }
     [HttpPost]
-    public ActionResult AddType(Cider cider, int TypeId)
+    public ActionResult AddStyle(Cider cider, int StyleId)
     {
-      if (TypeId != 0)
+      if (StyleId != 0)
       {
-      _db.CiderType.Add(new CiderType() { TypeId = TypeId, CiderId = cider.CiderId });
+      _db.CiderStyle.Add(new CiderStyle() { StyleId = StyleId, CiderId = cider.CiderId });
       }
       _db.SaveChanges();
       return RedirectToAction("Details", new { id = cider.CiderId});
