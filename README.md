@@ -29,8 +29,7 @@ This application is designed to organize types of ciders with their respective c
   - In the root directory, execute _dotnet ef migrations add (name here)_
   - execute _dotnet ef database update_
 
-- Login with admin@admin.com
-- PW: Password123!
+- Registration Password has no requirements.
 
 ## Known Bugs
 

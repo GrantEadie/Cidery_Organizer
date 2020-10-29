@@ -112,7 +112,7 @@ namespace CideryOrganizer.Controllers
     public ActionResult AddApple(int id)
     {
       var thisStyle = _db.Styles.FirstOrDefault(styles => styles.StyleId == id);
-      ViewBag.StyleId = new SelectList(_db.Apples, "AppleId", "AppleName");
+      ViewBag.AppleId = new SelectList(_db.Apples, "AppleId", "AppleName");
       return View(thisStyle);
     }
     [HttpPost]
